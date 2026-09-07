@@ -71,30 +71,6 @@ function ygb_slider2_activar() {
 }
 register_activation_hook(__FILE__, 'ygb_slider2_activar');
 
-// ==================== DESINSTALACIÓN ====================
-/**
- * Callback de desinstalación del plugin.
- * Elimina todas las opciones de la base de datos.
- * 
- * @return void
- */
-function ygb_slider2_desinstalar() {
-    if (!defined('WP_UNINSTALL_PLUGIN')) {
-        exit;
-    }
-    
-    // Verificar capacidad de administrador
-    if (!current_user_can('activate_plugins')) {
-        return;
-    }
-    
-    delete_option('ygb_slider2_slides');
-    delete_option('ygb_slider2_velocidad');
-    delete_option('ygb_slider2_autoplay');
-    delete_option('ygb_slider2_color');
-}
-register_uninstall_hook(__FILE__, 'ygb_slider2_desinstalar');
-
 // ==================== MENÚ ADMIN ====================
 /**
  * Registra los menús de administración del plugin.
