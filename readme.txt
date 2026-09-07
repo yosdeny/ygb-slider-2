@@ -3,13 +3,13 @@ Contributors: ygbteam
 Tags: slider, image slider, slideshow, carousel, elementor
 Requires at least: 7.0
 Tested up to: 7.1
-Stable tag: 3.1
+Stable tag: 3.2.0
 Requires PHP: 8.0
 Tested PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Slider profesional con texto sobre imagen y enlaces configurables. Versión endurecida con protección XSS y CSRF.
+Slider profesional con texto sobre imagen y enlaces configurables. Versión endurecida con protección XSS y CSRF v3.2.0.
 
 == Description ==
 
@@ -93,6 +93,11 @@ Sí, el slider se adapta automáticamente a dispositivos móviles con ajustes es
 
 == Changelog ==
 
+= 3.2.0 =
+* Actualización de versión a 3.2.0
+* Mantenimiento de todas las mejoras de seguridad v3.1
+* Compatible con WordPress 7.1 y PHP 8.2
+
 = 3.1 =
 * Hardening de seguridad v3.1
 * Protección XSS mejorada
@@ -117,6 +122,9 @@ Sí, el slider se adapta automáticamente a dispositivos móviles con ajustes es
 * Versión inicial del plugin
 
 == Upgrade Notice ==
+
+= 3.2.0 =
+Actualización de mantenimiento. Compatible con WordPress 7.1 y PHP 8.2.
 
 = 3.1 =
 Actualización de seguridad recomendada. Mejora la protección contra XSS y CSRF.

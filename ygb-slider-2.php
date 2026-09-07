@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: YGB Slider 2
- * Description: Slider con texto sobre imagen - Con enlaces en imágenes. Versión hardenizada v3.1
- * Version: 3.1
+ * Description: Slider con texto sobre imagen - Con enlaces en imágenes. Versión hardenizada v3.2.0
+ * Version: 3.2.0
  * Plugin URI: https://github.com/yosdeny
  * Author: YGB
  * Author URI: https://github.com/yosdeny
@@ -13,7 +13,7 @@
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * 
- * Security: Hardened version v3.1 - XSS protected, CSRF safe, strict validation, capability checks
+ * Security: Hardened version v3.2.0 - XSS protected, CSRF safe, strict validation, capability checks
  */
 
 if (!defined('ABSPATH')) {
@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 }
 
 // ==================== CONSTANTES Y CONFIGURACIÓN ====================
-define('YGB_SLIDER2_VERSION', '3.1');
+define('YGB_SLIDER2_VERSION', '3.2.0');
 define('YGB_SLIDER2_MAX_SLIDES', 50);
 define('YGB_SLIDER2_MIN_VELOCIDAD', 1000);
 define('YGB_SLIDER2_MAX_VELOCIDAD', 10000);
