@@ -3,10 +3,14 @@
  * Plugin Name: YGB Slider 2
  * Description: Slider con texto sobre imagen - Con enlaces en imágenes. Versión hardenizada v3.1
  * Version: 3.1
- * Author: YGB Team
- * Requires at least: 6.0
- * Requires PHP: 7.4
- * License: GPL-2.0-or-later
+ * Plugin URI: https://github.com/yosdeny
+ * Author: YGB
+ * Author URI: https://github.com/yosdeny
+ * Requires at least: 7.0
+ * Tested up to: 7.1
+ * Requires PHP: 8.0
+ * Tested PHP: 8.2
+ * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * 
  * Security: Hardened version v3.1 - XSS protected, CSRF safe, strict validation, capability checks

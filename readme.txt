@@ -1,11 +1,12 @@
 === YGB Slider 2 ===
 Contributors: ygbteam
 Tags: slider, image slider, slideshow, carousel, elementor
-Requires at least: 6.0
-Tested up to: 6.7
+Requires at least: 7.0
+Tested up to: 7.1
 Stable tag: 3.1
-Requires PHP: 7.4
-License: GPL-2.0-or-later
+Requires PHP: 8.0
+Tested PHP: 8.2
+License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Slider profesional con texto sobre imagen y enlaces configurables. Versión endurecida con protección XSS y CSRF.
