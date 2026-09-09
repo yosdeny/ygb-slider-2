@@ -1,1 +1,28 @@
-Nothing needs to be added to .gitignore since the changes only include source/config files (.txt, .php) without any build artifacts, dependencies, or temporary files.
+```
+# Dependencies
+node_modules/
+vendor/
+composer.lock
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
+.env.*
+
+# Editor
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+dist/
+build/
+*.min.js
+*.min.css
+```
