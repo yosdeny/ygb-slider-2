@@ -1,0 +1,517 @@
+/**
+ * YGB Slider 2 - Frontend Styles
+ * Version: 4.2.0
+ *
+ * Modo clásico: un solo efecto para todo el slider (deslizar/fundido/zoom/cubo/random).
+ * Modo mixto: cada slide tiene su propio efecto.
+ *
+ * Sin parallax ni fade del texto desde v4.2.0.
+ */
+
+/* ============================================================
+ * CONTENEDOR RAÍZ
+ * ============================================================ */
+.ygb-slider-wrapper {
+    display: block !important;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+    box-sizing: border-box;
+}
+
+.ygb-slider {
+    display: block !important;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+    box-sizing: border-box;
+}
+
+.ygb-slider *,
+.ygb-slider *::before,
+.ygb-slider *::after {
+    box-sizing: border-box;
+}
+
+/* ============================================================
+ * CONTENEDOR VISUAL
+ * ============================================================ */
+.ygb-slider .ygb-contenedor {
+    display: block !important;
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+    overflow: hidden;
+    background: #000;
+    line-height: 0;
+    border-radius: 0;
+    touch-action: pan-y;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: grab;
+}
+
+.ygb-slider .ygb-contenedor.ygb-dragging {
+    cursor: grabbing;
+}
+
+@media (hover: none) {
+    .ygb-slider .ygb-contenedor {
+        cursor: auto;
+    }
+}
+
+/* ============================================================
+ * PISTA — LAYOUT BASE (track horizontal)
+ * ============================================================ */
+.ygb-slider .ygb-pista {
+    display: flex !important;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin: 0;
+    padding: 0;
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
+}
+
+.ygb-slider .ygb-item {
+    position: relative;
+    display: block;
+    min-width: 100%;
+    width: 100%;
+    flex: 0 0 100%;
+    flex-shrink: 0;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+    opacity: 1;
+    overflow: hidden;
+}
+
+/* ============================================================
+ * IMÁGENES — esquinas rectas + sin drag nativo
+ * ============================================================ */
+.ygb-slider .ygb-contenedor .ygb-pista .ygb-item img,
+.ygb-slider .ygb-contenedor .ygb-pista .ygb-item a img,
+.ygb-slider .ygb-contenedor .ygb-pista .ygb-item a.ygb-slide-link img {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    -webkit-user-drag: none !important;
+    -khtml-user-drag: none !important;
+    -moz-user-drag: none !important;
+    -o-user-drag: none !important;
+    user-drag: none !important;
+    -webkit-user-select: none;
+    user-select: none;
+    pointer-events: none;
+}
+
+.ygb-slider .ygb-contenedor .ygb-pista .ygb-item a.ygb-slide-link {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    line-height: 0;
+    text-decoration: none;
+    outline: none;
+    transition: opacity 0.3s ease;
+    -webkit-user-drag: none !important;
+    -khtml-user-drag: none !important;
+    -moz-user-drag: none !important;
+    -o-user-drag: none !important;
+    user-drag: none !important;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.ygb-slider .ygb-contenedor .ygb-pista .ygb-item a.ygb-slide-link:hover {
+    opacity: 0.95;
+}
+
+/* ============================================================
+ * TEXTO SOBRE IMAGEN
+ * ============================================================ */
+.ygb-slider .ygb-texto-overlay {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-align: left;
+    line-height: 1.4;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    z-index: 5;
+    pointer-events: none;
+}
+
+.ygb-slider .ygb-texto-overlay h3 {
+    margin: 0 0 5px 0;
+    padding: 0;
+    font-size: 1.3rem;
+    line-height: 1.2;
+    color: #fff;
+    font-weight: 600;
+}
+
+.ygb-slider .ygb-descripcion {
+    margin: 0;
+    padding: 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.ygb-slider .ygb-descripcion a {
+    color: #fff;
+    text-decoration: underline;
+    pointer-events: auto;
+}
+
+.ygb-slider .ygb-descripcion strong { font-weight: bold; }
+.ygb-slider .ygb-descripcion em { font-style: italic; }
+
+/* ============================================================
+ * DOTS
+ * ============================================================ */
+.ygb-slider .ygb-dots {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+}
+
+.ygb-slider .ygb-dot {
+    cursor: pointer;
+    width: 35px;
+    transition: opacity 0.2s;
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    line-height: 0;
+}
+
+.ygb-slider .ygb-dot-bar {
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.ygb-slider .ygb-dot-fill {
+    height: 100%;
+    width: 0%;
+    background: #ff6b6b;
+    transition: width 0.05s linear;
+    border-radius: 3px;
+}
+
+/* ============================================================
+ * PANEL DEBUG
+ * ============================================================ */
+.ygb-slider-wrapper .ygb-panel {
+    background: #1e1e2f;
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+    color: #fff;
+    line-height: 1.4;
+}
+
+.ygb-slider-wrapper .ygb-panel span { color: #fff; font-size: 13px; }
+.ygb-slider-wrapper .ygb-rango { width: 180px; }
+.ygb-slider-wrapper .ygb-valor {
+    background: #333;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #fff;
+}
+.ygb-slider-wrapper .ygb-pre {
+    background: #333;
+    border: none;
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+.ygb-slider-wrapper .ygb-pre:hover { background: #ff6b6b; }
+
+/* ============================================================
+ * MODO CLÁSICO — EFECTO: DESLIZAR HORIZONTAL
+ * ============================================================ */
+.ygb-slider.ygb-trans-deslizar .ygb-pista,
+.ygb-slider[data-trans="deslizar"] .ygb-pista {
+    display: flex !important;
+    flex-direction: row;
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.ygb-slider.ygb-trans-deslizar .ygb-item,
+.ygb-slider[data-trans="deslizar"] .ygb-item {
+    min-width: 100%;
+    width: 100%;
+    flex: 0 0 100%;
+    flex-shrink: 0;
+}
+
+/* ============================================================
+ * MODO CLÁSICO — FAMILIA B (FUNDIDO / ZOOM / CUBO / RANDOM)
+ * "random" reutiliza estos estilos. El JS decide el efecto por transición.
+ * ============================================================ */
+.ygb-slider.ygb-trans-fundido .ygb-pista,
+.ygb-slider.ygb-trans-zoom .ygb-pista,
+.ygb-slider.ygb-trans-cubo .ygb-pista,
+.ygb-slider.ygb-trans-random .ygb-pista,
+.ygb-slider[data-trans="fundido"] .ygb-pista,
+.ygb-slider[data-trans="zoom"] .ygb-pista,
+.ygb-slider[data-trans="cubo"] .ygb-pista,
+.ygb-slider[data-trans="random"] .ygb-pista {
+    display: block !important;
+    position: relative !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 120px;
+    transition: none !important;
+    transform: none !important;
+    flex-direction: initial !important;
+    flex-wrap: initial !important;
+}
+
+.ygb-slider.ygb-trans-fundido .ygb-item,
+.ygb-slider.ygb-trans-zoom .ygb-item,
+.ygb-slider.ygb-trans-cubo .ygb-item,
+.ygb-slider.ygb-trans-random .ygb-item,
+.ygb-slider[data-trans="fundido"] .ygb-item,
+.ygb-slider[data-trans="zoom"] .ygb-item,
+.ygb-slider[data-trans="cubo"] .ygb-item,
+.ygb-slider[data-trans="random"] .ygb-item {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    flex: none !important;
+    opacity: 0;
+    z-index: 1;
+    pointer-events: none;
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: opacity, transform;
+}
+
+.ygb-slider.ygb-trans-fundido .ygb-item.ygb-actual,
+.ygb-slider.ygb-trans-zoom .ygb-item.ygb-actual,
+.ygb-slider.ygb-trans-cubo .ygb-item.ygb-actual,
+.ygb-slider.ygb-trans-random .ygb-item.ygb-actual,
+.ygb-slider[data-trans="fundido"] .ygb-item.ygb-actual,
+.ygb-slider[data-trans="zoom"] .ygb-item.ygb-actual,
+.ygb-slider[data-trans="cubo"] .ygb-item.ygb-actual,
+.ygb-slider[data-trans="random"] .ygb-item.ygb-actual {
+    opacity: 1;
+    z-index: 2;
+    pointer-events: auto;
+}
+
+/* --- ZOOM --- */
+.ygb-slider.ygb-trans-zoom .ygb-item,
+.ygb-slider[data-trans="zoom"] .ygb-item {
+    transform: scale(1.15);
+    transform-origin: 50% 50%;
+}
+
+.ygb-slider.ygb-trans-zoom .ygb-item.ygb-actual,
+.ygb-slider[data-trans="zoom"] .ygb-item.ygb-actual {
+    transform: scale(1);
+}
+
+/* --- CUBO --- */
+.ygb-slider.ygb-trans-cubo .ygb-contenedor,
+.ygb-slider[data-trans="cubo"] .ygb-contenedor {
+    perspective: 1200px;
+    -webkit-perspective: 1200px;
+}
+
+.ygb-slider.ygb-trans-cubo .ygb-item,
+.ygb-slider[data-trans="cubo"] .ygb-item {
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform-origin: 100% 50%;
+    transform: rotateY(-100deg);
+}
+
+.ygb-slider.ygb-trans-cubo .ygb-item.ygb-actual,
+.ygb-slider[data-trans="cubo"] .ygb-item.ygb-actual {
+    transform: rotateY(0deg);
+}
+
+/* --- RANDOM: perspectiva habilitada porque puede usar cubo --- */
+.ygb-slider.ygb-trans-random .ygb-contenedor,
+.ygb-slider[data-trans="random"] .ygb-contenedor {
+    perspective: 1200px;
+    -webkit-perspective: 1200px;
+}
+
+.ygb-slider.ygb-trans-random .ygb-item,
+.ygb-slider[data-trans="random"] .ygb-item {
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: none;
+}
+
+/* ============================================================
+ * MODO MIXTO — CADA SLIDE CON SU PROPIO EFECTO
+ * ============================================================ */
+.ygb-slider.ygb-modo-mixto .ygb-contenedor {
+    perspective: 1200px;
+    -webkit-perspective: 1200px;
+}
+
+.ygb-slider.ygb-modo-mixto .ygb-pista {
+    display: block !important;
+    position: relative !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 120px;
+    transition: none !important;
+    transform: none !important;
+    flex-direction: initial !important;
+    flex-wrap: initial !important;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+}
+
+.ygb-slider.ygb-modo-mixto .ygb-item {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    flex: none !important;
+    opacity: 0;
+    z-index: 1;
+    pointer-events: none;
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: opacity, transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+}
+
+.ygb-slider.ygb-modo-mixto .ygb-item.ygb-actual {
+    opacity: 1;
+    z-index: 2;
+    pointer-events: auto;
+}
+
+/* Estados iniciales por efecto en modo mixto */
+.ygb-slider.ygb-modo-mixto .ygb-item[data-efecto="fundido"] {
+    transform: none;
+    transform-origin: 50% 50%;
+}
+
+.ygb-slider.ygb-modo-mixto .ygb-item[data-efecto="zoom"] {
+    transform: scale(1.15);
+    transform-origin: 50% 50%;
+}
+
+.ygb-slider.ygb-modo-mixto .ygb-item[data-efecto="zoom"].ygb-actual {
+    transform: scale(1);
+}
+
+.ygb-slider.ygb-modo-mixto .ygb-item[data-efecto="cubo"] {
+    transform-origin: 100% 50%;
+    transform: rotateY(-100deg);
+}
+
+.ygb-slider.ygb-modo-mixto .ygb-item[data-efecto="cubo"].ygb-actual {
+    transform: rotateY(0deg);
+    transform-origin: 100% 50%;
+}
+
+.ygb-slider.ygb-modo-mixto .ygb-item[data-efecto="cubo"]:not(.ygb-actual) {
+    transform: rotateY(100deg);
+}
+
+/* ============================================================
+ * DRAG: sin transiciones mientras se arrastra
+ * ============================================================ */
+.ygb-slider .ygb-contenedor.ygb-dragging .ygb-pista,
+.ygb-slider .ygb-contenedor.ygb-dragging .ygb-item {
+    transition: none !important;
+}
+
+/* ============================================================
+ * ACCESIBILIDAD
+ * ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+    .ygb-slider .ygb-pista,
+    .ygb-slider .ygb-item {
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ============================================================
+ * RESPONSIVE
+ * ============================================================ */
+@media (max-width: 768px) {
+    .ygb-slider .ygb-dot { width: 28px; }
+    .ygb-slider-wrapper .ygb-panel { padding: 8px 12px; gap: 8px; }
+    .ygb-slider-wrapper .ygb-rango { width: 140px; }
+    .ygb-slider .ygb-texto-overlay {
+        bottom: 12px;
+        left: 12px;
+        right: 12px;
+        padding: 8px 12px;
+    }
+    .ygb-slider .ygb-texto-overlay h3 { font-size: 1rem; margin-bottom: 3px; }
+    .ygb-slider .ygb-descripcion { font-size: 0.75rem; }
+}
