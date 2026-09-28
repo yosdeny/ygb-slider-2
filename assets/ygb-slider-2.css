@@ -1,11 +1,14 @@
 /**
  * YGB Slider 2 - Frontend Styles
- * Version: 4.2.0
+ * Version: 4.2.2
  *
  * Modo clásico: un solo efecto para todo el slider (deslizar/fundido/zoom/cubo/random).
  * Modo mixto: cada slide tiene su propio efecto.
  *
  * Sin parallax ni fade del texto desde v4.2.0.
+ * Fondo del contenedor transparente para adaptarse al contexto.
+ * Dots circulares pequeños, abajo a la derecha.
+ * Los dots se pueden activar/desactivar desde el panel admin.
  */
 
 /* ============================================================
@@ -19,6 +22,7 @@
     padding: 0;
     line-height: 0;
     box-sizing: border-box;
+    background: transparent;
 }
 
 .ygb-slider {
@@ -29,6 +33,7 @@
     padding: 0;
     line-height: 0;
     box-sizing: border-box;
+    background: transparent;
 }
 
 .ygb-slider *,
@@ -38,7 +43,7 @@
 }
 
 /* ============================================================
- * CONTENEDOR VISUAL
+ * CONTENEDOR VISUAL — fondo transparente
  * ============================================================ */
 .ygb-slider .ygb-contenedor {
     display: block !important;
@@ -46,7 +51,7 @@
     max-width: 100%;
     position: relative;
     overflow: hidden;
-    background: #000;
+    background: transparent !important;
     line-height: 0;
     border-radius: 0;
     touch-action: pan-y;
@@ -76,6 +81,7 @@
     flex-wrap: nowrap;
     margin: 0;
     padding: 0;
+    background: transparent;
     transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
     will-change: transform;
 }
@@ -92,6 +98,7 @@
     line-height: 0;
     opacity: 1;
     overflow: hidden;
+    background: transparent;
 }
 
 /* ============================================================
@@ -189,45 +196,65 @@
 .ygb-slider .ygb-descripcion em { font-style: italic; }
 
 /* ============================================================
- * DOTS
+ * DOTS — círculos pequeños abajo a la derecha
  * ============================================================ */
 .ygb-slider .ygb-dots {
     position: absolute;
-    bottom: 15px;
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: 10px;
+    right: 10px;
     display: flex;
-    gap: 10px;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
     z-index: 10;
     margin: 0;
     padding: 0;
     line-height: 0;
+    pointer-events: auto;
 }
 
 .ygb-slider .ygb-dot {
     cursor: pointer;
-    width: 35px;
-    transition: opacity 0.2s;
-    display: inline-block;
+    width: 10px;
+    height: 10px;
     padding: 0;
     margin: 0;
     line-height: 0;
+    display: block;
+    transition: opacity 0.2s, transform 0.2s;
+    flex-shrink: 0;
 }
 
 .ygb-slider .ygb-dot-bar {
-    width: 100%;
-    height: 3px;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 3px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.35);
     overflow: hidden;
+    position: relative;
+    /* Rota -90° para que el fill (width % controlado por JS) crezca
+       de abajo hacia arriba dentro del círculo */
+    transform: rotate(-90deg);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
 .ygb-slider .ygb-dot-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
     height: 100%;
     width: 0%;
     background: #ff6b6b;
     transition: width 0.05s linear;
-    border-radius: 3px;
+}
+
+/* Hover: aclarar el fondo y agrandar ligeramente */
+.ygb-slider .ygb-dot:hover .ygb-dot-bar {
+    background: rgba(255, 255, 255, 0.55);
+}
+
+.ygb-slider .ygb-dot:hover {
+    transform: scale(1.2);
 }
 
 /* ============================================================
@@ -287,7 +314,6 @@
 
 /* ============================================================
  * MODO CLÁSICO — FAMILIA B (FUNDIDO / ZOOM / CUBO / RANDOM)
- * "random" reutiliza estos estilos. El JS decide el efecto por transición.
  * ============================================================ */
 .ygb-slider.ygb-trans-fundido .ygb-pista,
 .ygb-slider.ygb-trans-zoom .ygb-pista,
@@ -383,7 +409,7 @@
     transform: rotateY(0deg);
 }
 
-/* --- RANDOM: perspectiva habilitada porque puede usar cubo --- */
+/* --- RANDOM --- */
 .ygb-slider.ygb-trans-random .ygb-contenedor,
 .ygb-slider[data-trans="random"] .ygb-contenedor {
     perspective: 1200px;
@@ -452,7 +478,6 @@
     pointer-events: auto;
 }
 
-/* Estados iniciales por efecto en modo mixto */
 .ygb-slider.ygb-modo-mixto .ygb-item[data-efecto="fundido"] {
     transform: none;
     transform-origin: 50% 50%;
@@ -503,11 +528,23 @@
  * RESPONSIVE
  * ============================================================ */
 @media (max-width: 768px) {
-    .ygb-slider .ygb-dot { width: 28px; }
+    .ygb-slider .ygb-dots {
+        bottom: 8px;
+        right: 8px;
+        gap: 5px;
+    }
+    .ygb-slider .ygb-dot {
+        width: 9px;
+        height: 9px;
+    }
+    .ygb-slider .ygb-dot-bar {
+        width: 9px;
+        height: 9px;
+    }
     .ygb-slider-wrapper .ygb-panel { padding: 8px 12px; gap: 8px; }
     .ygb-slider-wrapper .ygb-rango { width: 140px; }
     .ygb-slider .ygb-texto-overlay {
-        bottom: 12px;
+        bottom: 30px;
         left: 12px;
         right: 12px;
         padding: 8px 12px;

@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: YGB Slider 2
- * Description: Slider con texto sobre imagen - Con enlaces en imágenes. Versión hardenizada v4.2.1 con navegación táctil, panel administrativo en acordeón, reordenamiento drag & drop, activación/duplicado de slides, efectos de transición configurables, modo mixto, efecto aleatorio y programación por fecha.
- * Version: 4.2.1
+ * Description: Slider con texto sobre imagen - Con enlaces en imágenes. Versión hardenizada v4.2.2 con navegación táctil, panel administrativo en acordeón, reordenamiento drag & drop, activación/duplicado de slides, efectos de transición configurables, modo mixto, efecto aleatorio, programación por fecha y control de dots.
+ * Version: 4.2.2
  * Plugin URI: https://github.com/yosdeny
  * Author: YGB
  * Author URI: https://github.com/yosdeny
@@ -13,7 +13,7 @@
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * 
- * Security: Hardened version v4.2.1 - XSS protected, CSRF safe, strict validation, capability checks
+ * Security: Hardened version v4.2.2 - XSS protected, CSRF safe, strict validation, capability checks
  */
 
 if (!defined('ABSPATH')) {
@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 }
 
 // ==================== CONSTANTES ====================
-define('YGB_SLIDER2_VERSION', '4.2.1');
+define('YGB_SLIDER2_VERSION', '4.2.2');
 define('YGB_SLIDER2_FILE', __FILE__);
 define('YGB_SLIDER2_DIR', plugin_dir_path(__FILE__));
 define('YGB_SLIDER2_URL', plugin_dir_url(__FILE__));
@@ -288,6 +288,7 @@ function ygb_slider2_activar() {
     if (!get_option('ygb_slider2_velocidad')) add_option('ygb_slider2_velocidad', YGB_SLIDER2_DEFAULT_VELOCIDAD);
     if (!get_option('ygb_slider2_autoplay')) add_option('ygb_slider2_autoplay', 1);
     if (!get_option('ygb_slider2_color')) add_option('ygb_slider2_color', '#ff6b6b');
+    if (get_option('ygb_slider2_dots') === false) add_option('ygb_slider2_dots', 1);
     
     $trans_actual = get_option('ygb_slider2_transicion', YGB_SLIDER2_DEFAULT_TRANSICION);
     update_option('ygb_slider2_transicion', ygb_slider2_normalizar_transicion($trans_actual));
@@ -429,23 +430,6 @@ function ygb_slider2_dashboard() {
                 <li><?php esc_html_e('Pulsa "Guardar Slides"', 'ygb-slider-2'); ?></li>
             </ol>
             
-            <h3><?php esc_html_e('Así se ve en el panel', 'ygb-slider-2'); ?></h3>
-            <pre style="background:#f6f7f7; padding:15px; border-radius:6px; overflow-x:auto; font-size:12px; line-height:1.5; color:#1d2327">Panel admin → YGB Slider 2 → Slides → expandir un slide
-
-┌──────────────────────────────────────────────┐
-│  Imagen:       [__________________] [Elegir] │
-│  Título:       [50% en todo______]           │
-│  Descripción:  [__________________]          │
-│  URL:          [__________________]          │
-│  Abrir enlace: [Misma ventana ▼]             │
-│                                              │
-│  📅 Programación por fecha (opcional)        │
-│  ┌─────────────────┬─────────────────┐       │
-│  │ Fecha inicio:   │ Fecha fin:      │       │
-│  │ [25/11/2026]    │ [30/11/2026]    │       │
-│  └─────────────────┴─────────────────┘       │
-└──────────────────────────────────────────────┘</pre>
-            
             <h3><?php esc_html_e('Ejemplo completo', 'ygb-slider-2'); ?></h3>
             <table class="widefat striped" style="border-radius:6px; overflow:hidden">
                 <thead>
@@ -472,14 +456,19 @@ function ygb_slider2_dashboard() {
                     </tr>
                 </tbody>
             </table>
-            
-            <h3><?php esc_html_e('Comportamiento según las fechas', 'ygb-slider-2'); ?></h3>
+        </div>
+        
+        <div style="background:white; padding:20px; border-radius:10px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.06); border-left:4px solid #f59e0b">
+            <h2 style="margin-top:0">⚪ <?php esc_html_e('Control de los dots (indicadores)', 'ygb-slider-2'); ?></h2>
+            <p style="color:#50575e">
+                <?php esc_html_e('Los dots son los círculos que indican en qué slide estás. Se pueden activar o desactivar:', 'ygb-slider-2'); ?>
+            </p>
             <ul style="list-style:disc; padding-left:20px; color:#50575e">
-                <li><strong><?php esc_html_e('Sin fechas:', 'ygb-slider-2'); ?></strong> <?php esc_html_e('el slide siempre se muestra.', 'ygb-slider-2'); ?></li>
-                <li><strong><?php esc_html_e('Solo fecha de inicio:', 'ygb-slider-2'); ?></strong> <?php esc_html_e('el slide aparece a partir de esa fecha (para siempre).', 'ygb-slider-2'); ?></li>
-                <li><strong><?php esc_html_e('Solo fecha de fin:', 'ygb-slider-2'); ?></strong> <?php esc_html_e('el slide aparece desde siempre hasta esa fecha.', 'ygb-slider-2'); ?></li>
-                <li><strong><?php esc_html_e('Ambas fechas:', 'ygb-slider-2'); ?></strong> <?php esc_html_e('el slide solo aparece dentro del rango (ambas inclusive).', 'ygb-slider-2'); ?></li>
+                <li><strong><?php esc_html_e('Globalmente:', 'ygb-slider-2'); ?></strong> <?php esc_html_e('desde YGB Slider 2 → Configurar, opción "Mostrar indicadores (dots)".', 'ygb-slider-2'); ?></li>
+                <li><strong><?php esc_html_e('Por instancia:', 'ygb-slider-2'); ?></strong> <?php esc_html_e('con el atributo dots del shortcode.', 'ygb-slider-2'); ?></li>
             </ul>
+            <pre style="background:#f6f7f7; padding:12px; border-radius:6px; overflow-x:auto; font-size:13px">[ygb_slider2 dots="no"]   → sin dots
+[ygb_slider2 dots="si"]   → con dots (por defecto)</pre>
         </div>
         
         <div style="background:white; padding:20px; border-radius:10px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.06); border-left:4px solid #2271b1">
@@ -523,6 +512,7 @@ function ygb_slider2_dashboard() {
                     <tr><td><strong><?php esc_html_e('Un solo slide', 'ygb-slider-2'); ?></strong></td><td><code>[ygb_slider2 slides="3"]</code></td><td><?php esc_html_e('Solo el slide 3', 'ygb-slider-2'); ?></td></tr>
                     <tr><td><strong><?php esc_html_e('Varios en orden libre', 'ygb-slider-2'); ?></strong></td><td><code>[ygb_slider2 slides="1,7,4,2"]</code></td><td><?php esc_html_e('En ese orden exacto', 'ygb-slider-2'); ?></td></tr>
                     <tr><td><strong><?php esc_html_e('Rango', 'ygb-slider-2'); ?></strong></td><td><code>[ygb_slider2 slides="1-3"]</code></td><td><?php esc_html_e('Slides 1, 2 y 3', 'ygb-slider-2'); ?></td></tr>
+                    <tr><td><strong><?php esc_html_e('Sin dots', 'ygb-slider-2'); ?></strong></td><td><code>[ygb_slider2 dots="no"]</code></td><td><?php esc_html_e('Sin indicadores de posición', 'ygb-slider-2'); ?></td></tr>
                     <tr><td><strong><?php esc_html_e('Cambiar efecto', 'ygb-slider-2'); ?></strong></td><td><code>[ygb_slider2 transicion="cubo"]</code></td><td><?php esc_html_e('Todos con cubo', 'ygb-slider-2'); ?></td></tr>
                     <tr><td><strong><?php esc_html_e('Aleatorio', 'ygb-slider-2'); ?></strong></td><td><code>[ygb_slider2 transicion="random"]</code></td><td><?php esc_html_e('Efecto aleatorio en cada transición', 'ygb-slider-2'); ?></td></tr>
                 </tbody>
@@ -550,6 +540,7 @@ function ygb_slider2_dashboard() {
                 <li><code>slides</code> — <?php esc_html_e('Selección de slides por número. Ej: "1,7,4,2" o "1-3,7,10".', 'ygb-slider-2'); ?></li>
                 <li><code>velocidad</code> — <?php esc_html_e('Milisegundos (1000–10000). Ej: "4000".', 'ygb-slider-2'); ?></li>
                 <li><code>autoplay</code> — <?php esc_html_e('"si" o "no".', 'ygb-slider-2'); ?></li>
+                <li><code>dots</code> — <?php esc_html_e('"si" o "no". Muestra u oculta los indicadores de posición.', 'ygb-slider-2'); ?></li>
                 <li><code>transicion</code> — <?php esc_html_e('"deslizar", "fundido", "zoom", "cubo" o "random".', 'ygb-slider-2'); ?></li>
                 <li><code>admin_panel</code> — <?php esc_html_e('"yes" para mostrar controles en vivo (requiere WP_DEBUG).', 'ygb-slider-2'); ?></li>
             </ul>
@@ -1127,6 +1118,9 @@ function ygb_slider2_config() {
         $autoplay = isset($_POST['autoplay']) ? 1 : 0;
         update_option('ygb_slider2_autoplay', $autoplay);
         
+        $dots = isset($_POST['dots']) ? 1 : 0;
+        update_option('ygb_slider2_dots', $dots);
+        
         $color = isset($_POST['color']) ? sanitize_hex_color(wp_unslash($_POST['color'])) : '#ff6b6b';
         if (empty($color)) $color = '#ff6b6b';
         update_option('ygb_slider2_color', $color);
@@ -1139,6 +1133,7 @@ function ygb_slider2_config() {
     
     $vel = absint(get_option('ygb_slider2_velocidad', YGB_SLIDER2_DEFAULT_VELOCIDAD));
     $auto = absint(get_option('ygb_slider2_autoplay', 1));
+    $dots = absint(get_option('ygb_slider2_dots', 1));
     $color = sanitize_hex_color(get_option('ygb_slider2_color', '#ff6b6b'));
     
     $transicion = ygb_slider2_normalizar_transicion(get_option('ygb_slider2_transicion', YGB_SLIDER2_DEFAULT_TRANSICION));
@@ -1163,6 +1158,13 @@ function ygb_slider2_config() {
                 <tr>
                     <th scope="row"><?php esc_html_e('Autoplay', 'ygb-slider-2'); ?></th>
                     <td><label><input type="checkbox" name="autoplay" value="1" <?php checked($auto, 1); ?>> <?php esc_html_e('Activar autoplay', 'ygb-slider-2'); ?></label></td>
+                </tr>
+                <tr>
+                    <th scope="row"><?php esc_html_e('Indicadores (dots)', 'ygb-slider-2'); ?></th>
+                    <td>
+                        <label><input type="checkbox" name="dots" value="1" <?php checked($dots, 1); ?>> <?php esc_html_e('Mostrar los círculos indicadores de posición', 'ygb-slider-2'); ?></label>
+                        <p class="description"><?php esc_html_e('Se pueden desactivar por instancia con el atributo dots="no" del shortcode.', 'ygb-slider-2'); ?></p>
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row"><label for="color"><?php esc_html_e('Color principal', 'ygb-slider-2'); ?></label></th>
@@ -1194,6 +1196,7 @@ function ygb_slider2_shortcode($atts) {
     $atts = shortcode_atts(array(
         'velocidad'   => get_option('ygb_slider2_velocidad', YGB_SLIDER2_DEFAULT_VELOCIDAD),
         'autoplay'    => get_option('ygb_slider2_autoplay', 1) ? 'si' : 'no',
+        'dots'        => get_option('ygb_slider2_dots', 1) ? 'si' : 'no',
         'admin_panel' => 'no',
         'transicion'  => get_option('ygb_slider2_transicion', YGB_SLIDER2_DEFAULT_TRANSICION),
         'slides'      => '',
@@ -1207,6 +1210,7 @@ function ygb_slider2_shortcode($atts) {
     $velocidad = max(YGB_SLIDER2_MIN_VELOCIDAD, min(YGB_SLIDER2_MAX_VELOCIDAD, $velocidad));
     
     $autoplay = in_array(strtolower($atts['autoplay']), array('si', 'true', '1', 'yes'), true);
+    $mostrar_dots = in_array(strtolower($atts['dots']), array('si', 'true', '1', 'yes'), true);
     
     $mostrar_panel = false;
     if (defined('WP_DEBUG') && WP_DEBUG && strtolower($atts['admin_panel']) === 'yes' && current_user_can('manage_options')) {
@@ -1324,7 +1328,13 @@ function ygb_slider2_shortcode($atts) {
             $html .= '</div>';
         }
         
-        $html .= '</div><div class="ygb-dots" data-slider-instance="' . absint($instance_id) . '"></div></div></div></div>';
+        $html .= '</div>';
+        
+        if ($mostrar_dots) {
+            $html .= '<div class="ygb-dots" data-slider-instance="' . absint($instance_id) . '"></div>';
+        }
+        
+        $html .= '</div></div></div>';
         
         return $html;
     }
@@ -1408,7 +1418,13 @@ function ygb_slider2_shortcode($atts) {
         $html .= '</div>';
     }
     
-    $html .= '</div><div class="ygb-dots" data-slider-instance="' . absint($instance_id) . '"></div></div></div></div>';
+    $html .= '</div>';
+    
+    if ($mostrar_dots) {
+        $html .= '<div class="ygb-dots" data-slider-instance="' . absint($instance_id) . '"></div>';
+    }
+    
+    $html .= '</div></div></div>';
     
     return $html;
 }
@@ -1458,6 +1474,13 @@ function ygb_slider2_register_elementor_widget($widgets_manager) {
                 'default' => absint(get_option('ygb_slider2_autoplay', 1)) ? 'yes' : 'no'
             ));
             
+            $this->add_control('dots', array(
+                'label' => esc_html__('Mostrar indicadores', 'ygb-slider-2'),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'default' => absint(get_option('ygb_slider2_dots', 1)) ? 'yes' : 'no',
+                'description' => esc_html__('Círculos indicadores de posición del slide.', 'ygb-slider-2')
+            ));
+            
             $this->end_controls_section();
         }
         
@@ -1466,12 +1489,13 @@ function ygb_slider2_register_elementor_widget($widgets_manager) {
             $velocidad = absint($settings['velocidad']);
             $velocidad = max(YGB_SLIDER2_MIN_VELOCIDAD, min(YGB_SLIDER2_MAX_VELOCIDAD, $velocidad));
             $autoplay = ($settings['autoplay'] === 'yes') ? 'si' : 'no';
+            $dots = ($settings['dots'] === 'yes') ? 'si' : 'no';
             $grupos = isset($settings['grupos']) ? trim((string) $settings['grupos']) : '';
             $slides = isset($settings['slides']) ? trim((string) $settings['slides']) : '';
             
             $atts = sprintf(
-                '[ygb_slider2 velocidad="%d" autoplay="%s"',
-                $velocidad, esc_attr($autoplay)
+                '[ygb_slider2 velocidad="%d" autoplay="%s" dots="%s"',
+                $velocidad, esc_attr($autoplay), esc_attr($dots)
             );
             
             if ($grupos !== '') {

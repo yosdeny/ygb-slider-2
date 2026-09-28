@@ -3,13 +3,13 @@ Contributors: ygbteam
 Tags: slider, image slider, slideshow, carousel, elementor, touch, swipe, drag-and-drop, duplicate, transition, shortcode, mixed-effects, scheduling
 Requires at least: 7.0
 Tested up to: 7.1
-Stable tag: 4.2.1
+Stable tag: 4.2.2
 Requires PHP: 8.0
 Tested PHP: 8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Slider profesional con texto sobre imagen y enlaces configurables. Versión endurecida con protección XSS y CSRF, navegación táctil con swipe, panel administrativo en acordeón con reordenamiento drag & drop, activación/duplicado de slides, efectos de transición configurables, modo mixto, efecto aleatorio y programación por fecha.
+Slider profesional con texto sobre imagen y enlaces configurables. Versión endurecida con protección XSS y CSRF, navegación táctil con swipe, panel administrativo en acordeón con reordenamiento drag & drop, activación/duplicado de slides, efectos de transición configurables, modo mixto, efecto aleatorio, programación por fecha y control de indicadores.
 
 == Description ==
 
@@ -33,6 +33,7 @@ YGB Slider 2 es un plugin de slider profesional para WordPress que permite crear
 * **Selección de slides por número**: mostrar solo los que quieras con `slides="1,3,4"` o rangos `slides="1-3,7"`
 * **Orden personalizado**: `slides="1,7,4,2"` muestra los slides en ese orden exacto
 * **Velocidad por grupo** en modo mixto
+* **Indicadores (dots) configurables**: se pueden activar o desactivar globalmente o por instancia
 * **Panel administrativo en acordeón**
 * **Reordenamiento por drag & drop**
 * **Activar/desactivar slides individualmente**
@@ -84,6 +85,24 @@ Cada slide puede tener una fecha de inicio y/o una fecha de fin. Los slides fuer
 
 **Las fechas se configuran en el PANEL DE ADMIN, no en el shortcode.**
 
+**Indicadores (dots):**
+
+Los indicadores son los pequeños círculos que muestran en qué slide estás. Están situados abajo a la derecha para ocupar el mínimo espacio posible.
+
+Se pueden activar o desactivar:
+
+* **Globalmente**: desde "YGB Slider 2 → Configurar → Indicadores (dots)".
+* **Por instancia**: con el atributo `dots` del shortcode.
+
+Ejemplos:
+
+* `[ygb_slider2 dots="no"]` oculta los indicadores solo en ese slider.
+* `[ygb_slider2 dots="si"]` los muestra aunque el global esté desactivado.
+
+**Fondo transparente:**
+
+El contenedor del slider no tiene fondo propio. Se adapta automáticamente al color de fondo del tema o del bloque donde se inserte.
+
 **Shortcode:**
 
 `[ygb_slider2]`
@@ -94,6 +113,7 @@ Atributos:
 * `slides` - Selección de slides por número. Ej: `"1,7,4,2"` o `"1-3,7,10"`
 * `velocidad` - Milisegundos (ej: `4000`)
 * `autoplay` - `si` o `no`
+* `dots` - `si` o `no`. Muestra u oculta los indicadores de posición.
 * `transicion` - `deslizar`, `fundido`, `zoom`, `cubo`, `random`
 * `admin_panel` - `yes` para controles en vivo (WP_DEBUG)
 
@@ -104,6 +124,7 @@ Ejemplos:
 * `[ygb_slider2 slides="1-3,7,10" transicion="cubo" velocidad="6000"]`
 * `[ygb_slider2 grupos="1,3:zoom|2,4:cubo"]`
 * `[ygb_slider2 transicion="random"]`
+* `[ygb_slider2 dots="no"]`
 
 == Installation ==
 
@@ -134,7 +155,7 @@ Sí, entre 1000 ms (1 s) y 10000 ms (10 s) desde el panel de configuración, por
 
 = ¿Funciona con Elementor? =
 
-Sí, incluye un widget nativo con todos los campos.
+Sí, incluye un widget nativo con todos los campos: velocidad, autoplay, selección de slides, grupos y control de indicadores.
 
 = ¿El slider es responsive? =
 
@@ -181,6 +202,21 @@ Usa el atributo `slides`:
 = ¿Qué es el efecto "aleatorio" (random)? =
 
 Con `transicion="random"`, cada transición elige aleatoriamente entre fundido, zoom y cubo.
+
+= ¿Qué son los indicadores (dots)? =
+
+Son los pequeños círculos que aparecen abajo a la derecha del slider y que indican en qué slide estás. El activo tiene un relleno de color que sube de abajo hacia arriba marcando el progreso del autoplay.
+
+= ¿Cómo activo o desactivo los indicadores? =
+
+Hay dos formas:
+
+* **Globalmente**: en "YGB Slider 2 → Configurar", hay un checkbox "Mostrar los círculos indicadores de posición". Si lo desmarcas, todos los sliders del sitio dejan de mostrar dots.
+* **Por instancia**: con el atributo `dots` del shortcode.
+  * `[ygb_slider2 dots="no"]` los oculta solo en ese slider.
+  * `[ygb_slider2 dots="si"]` los muestra aunque el global esté desactivado.
+
+En el widget de Elementor también hay un switch "Mostrar indicadores" por instancia.
 
 = ¿Dónde se configuran las fechas de programación? =
 
@@ -305,13 +341,22 @@ En la página "Slides" cada slide tiene un número circular azul a la izquierda 
 
 Sí. Los números reflejan la posición actual. Si mueves el slide 5 a la primera posición, pasa a ser el slide 1.
 
+= El fondo del slider se ve negro. ¿Cómo lo quito? =
+
+El contenedor del slider tiene fondo transparente por defecto desde la v4.2.1. Se adapta al color de fondo del tema o del bloque donde esté insertado.
+
+Si aún ves fondo negro, es probable que:
+
+1. El tema tenga una regla CSS agresiva que se aplique al contenedor. Puedes forzarlo desde "Apariencia → Personalizar → CSS adicional" con: `.ygb-slider .ygb-contenedor { background: transparent !important; }`
+2. Tengas caché sin purgar.
+
 = ¿Funciona con plugins de caché y optimización? =
 
 Sí. La arquitectura externalizada está diseñada para ser compatible con WP Rocket, Autoptimize, LiteSpeed Cache, W3 Total Cache, Perfmatters y cualquier otro plugin de optimización.
 
-= ¿Cómo verifico que la versión 4.2.1 está instalada? =
+= ¿Cómo verifico que la versión 4.2.2 está instalada? =
 
-Ve a la página de plugins en tu WordPress. Junto al nombre "YGB Slider 2" debe aparecer "Versión 4.2.1". En el código fuente de una página con el slider verás los assets cargados como `?ver=4.2.1`.
+Ve a la página de plugins en tu WordPress. Junto al nombre "YGB Slider 2" debe aparecer "Versión 4.2.2". En el código fuente de una página con el slider verás los assets cargados como `?ver=4.2.2`.
 
 == Screenshots ==
 
@@ -319,31 +364,42 @@ Ve a la página de plugins en tu WordPress. Junto al nombre "YGB Slider 2" debe 
 2. Panel de administración - Slide expandido con la sección de programación por fecha visible
 3. Panel de administración - Reordenamiento por drag & drop con placeholder visible
 4. Panel de administración - Badge verde "Vigente" y badge amarillo "Programado"
-5. Dashboard - Sección de programación por fecha con pasos claros y ejemplo visual
-6. Dashboard - Sección de efecto aleatorio
-7. Dashboard - Sección de modo mixto
-8. Panel de configuración - Ajustes de velocidad, autoplay, color y efecto
-9. Vista frontal con efecto "deslizar horizontal"
-10. Vista frontal con efecto "rotación 3D (cubo)"
-11. Vista frontal del modo mixto
-12. Widget de Elementor
+5. Panel de configuración - Ajustes de velocidad, autoplay, indicadores, color y efecto
+6. Dashboard - Sección de programación por fecha con pasos claros y ejemplo visual
+7. Dashboard - Sección de control de los dots
+8. Dashboard - Sección de efecto aleatorio
+9. Dashboard - Sección de modo mixto
+10. Vista frontal con efecto "deslizar horizontal"
+11. Vista frontal con efecto "rotación 3D (cubo)"
+12. Vista frontal del modo mixto
+13. Vista frontal con los indicadores circulares abajo a la derecha
+14. Widget de Elementor
 
 == Changelog ==
 
+= 4.2.2 =
+* NUEVA FUNCIÓN: control de indicadores (dots) desde el panel de administración
+* Nueva opción global "Indicadores (dots)" en la página Configurar
+* Nuevo atributo `dots` en el shortcode: `[ygb_slider2 dots="no"]` para ocultar por instancia
+* Nuevo switch "Mostrar indicadores" en el widget de Elementor
+* Los dots ahora son más pequeños (10×10 px en lugar de 14×14 px) y están situados abajo a la derecha
+* Los dots pasan de estar apilados verticalmente a estar en línea horizontal
+* Añadido efecto hover en los dots: se aclaran y aumentan ligeramente de tamaño
+* Box-shadow más discreta para que los dots se integren mejor sobre imágenes claras
+* El contenedor del slider es transparente por defecto (se adapta al contexto donde se inserte)
+* Los elementos `.ygb-pista` y `.ygb-item` también tienen fondo transparente
+* Nuevo bloque informativo en el dashboard explicando el control de dots
+* Nueva fila de ejemplo en el dashboard: `[ygb_slider2 dots="no"]`
+* Nueva FAQ: "¿Qué son los indicadores (dots)?" y "¿Cómo activo o desactivo los indicadores?"
+* Nueva FAQ: "El fondo del slider se ve negro. ¿Cómo lo quito?"
+* Sin cambios en el modelo de datos: no requiere migración
+
 = 4.2.1 =
 * MEJORA DE DOCUMENTACIÓN: la sección de programación por fecha del dashboard ahora explica paso a paso cómo configurar las fechas
-* Aviso destacado en el dashboard: "Las fechas NO van en el shortcode. Se configuran en el panel de administración"
-* Nuevo ejemplo visual del panel admin en el dashboard mostrando dónde están los campos de fecha
-* Nueva tabla de ejemplo completo en el dashboard: "Dónde" / "Qué pones" / "Resultado"
-* Nuevas FAQ en el readme:
-  * ¿Dónde se configuran las fechas de programación?
-  * Ejemplo concreto paso a paso (slide 3 del 25 al 30 de noviembre)
-  * ¿Qué pasa si NO pongo ninguna fecha en un slide?
-  * ¿Puedo combinar slides normales con slides programados?
-  * ¿Puedo hacer que un slider muestre solo los programados?
-  * ¿Qué comportamiento tienen las fechas?
-  * ¿Qué zona horaria se usa?
-* Sin cambios de código funcional: solo texto y estructura del dashboard y del readme
+* Aviso destacado en el dashboard: "Las fechas NO van en el shortcode"
+* Nuevo ejemplo visual del panel admin en el dashboard
+* Nuevas FAQ sobre programación por fecha, comportamiento, zona horaria y combinaciones
+* Sin cambios de código funcional
 
 = 4.2.0 =
 * ELIMINADO: función de parallax por completo
@@ -426,8 +482,11 @@ Ve a la página de plugins en tu WordPress. Junto al nombre "YGB Slider 2" debe 
 
 == Upgrade Notice ==
 
+= 4.2.2 =
+Añade control de indicadores (dots) desde el panel admin y por instancia con el atributo `dots` del shortcode. Los dots ahora son más pequeños y están abajo a la derecha. El contenedor del slider es transparente para adaptarse al contexto. Actualización recomendada.
+
 = 4.2.1 =
-Mejora de documentación: el dashboard y el readme explican ahora paso a paso cómo configurar las fechas de programación. Sin cambios funcionales.
+Mejora de documentación: el dashboard y el readme explican ahora paso a paso cómo configurar las fechas de programación.
 
 = 4.2.0 =
 Elimina por completo las funciones experimentales de parallax y fade del texto por problemas de estabilidad.
